@@ -1,0 +1,19 @@
+﻿<Window x:Class="GameOfLifeProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameOfLife"
+        mc:Ignorable="d"
+        Title="Game of Life" Height="600" Width="800" MinWidth="900" MinHeight="600">
+    <Grid Background="#FF343434">
+        <Grid Name="Grid" Width="800" Height="450" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black">
+
+        </Grid>
+        <Grid Name="Controls" Width="800" Height="55" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="46,514,46,0">
+            <Button Name="StartPauseButton" Content="Start" HorizontalAlignment="Left" Margin="10,17,0,14" VerticalAlignment="Top" Width="75" Click="StartPauseButton_Click"/>
+            <Button Name="EditDoneButton" Content="Edit" HorizontalAlignment="Left" Margin="715,17,0,0" VerticalAlignment="Top" Width="75" Click="EditDoneButton_Click"/>
+
+        </Grid>
+    </Grid>
+</Window>
