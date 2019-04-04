@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Windows.Forms;
 using GameOfLife;
+using Newtonsoft.Json;
 
 namespace GameOfLifeProject
 {
@@ -33,10 +28,9 @@ namespace GameOfLifeProject
 
             _editing = false;
 
-            _gameOfLife = new GameOfLife(32 * 2, 18 * 2, this);
-            _gameOfLife.GenerateRandom();
+            _gameOfLife = new GameOfLife(32, 18, this);
 
-            _timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 10), DispatcherPriority.Render, Tick, Dispatcher.CurrentDispatcher);
+            _timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100), DispatcherPriority.Render, Tick, Dispatcher.CurrentDispatcher);
             _timer.Stop();
         }
 
@@ -101,7 +95,7 @@ namespace GameOfLifeProject
 
         private void StartPauseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button)
+            if (sender is System.Windows.Controls.Button button)
             {
                 if (_timer.IsEnabled)
                 {
@@ -121,7 +115,7 @@ namespace GameOfLifeProject
 
         private void EditDoneButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button)
+            if (sender is System.Windows.Controls.Button button)
             {
                 _editing = !_editing;
                 button.Content = _editing ? "Done!" : "Edit";
@@ -132,6 +126,76 @@ namespace GameOfLifeProject
                     StartPauseButton.Content = "Start";
                 }
             }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_timer.IsEnabled)
+            {
+                _timer.Stop();
+                StartPauseButton.Content = "Start";
+            }
+
+            SaveFileDialog dialog = new SaveFileDialog();
+
+            dialog.Title = "Save your game";
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            dialog.RestoreDirectory = true;
+
+            dialog.DefaultExt = "json";
+            dialog.Filter = "Game of Life (*.json)|*.json";
+
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string json = JsonConvert.SerializeObject(_gameOfLife.GenerateSavedData());
+                File.WriteAllText(dialog.FileName, json);
+            }
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_timer.IsEnabled)
+            {
+                _timer.Stop();
+                StartPauseButton.Content = "Start"; 
+            }
+
+            OpenFileDialog dialog = new OpenFileDialog();
+
+            dialog.Title = "Load your game";
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            dialog.RestoreDirectory = true;
+
+            dialog.DefaultExt = "json";
+            dialog.Filter = "Game of Life (*.json)|*.json";
+
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string json = File.ReadAllText(dialog.FileName);
+                _gameOfLife.LoadSavedData(JsonConvert.DeserializeObject<SavedData>(json));
+            }
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_timer.IsEnabled)
+            {
+                _timer.Stop();
+                StartPauseButton.Content = "Start";
+            }
+
+            _gameOfLife.Reset();
+        }
+
+        private void RandomButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_timer.IsEnabled)
+            {
+                _timer.Stop();
+                StartPauseButton.Content = "Start";
+            }
+
+            _gameOfLife.GenerateRandom();
         }
     }
 }

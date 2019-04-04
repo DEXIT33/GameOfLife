@@ -13,7 +13,10 @@
         <Grid Name="Controls" Width="800" Height="55" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="46,514,46,0">
             <Button Name="StartPauseButton" Content="Start" HorizontalAlignment="Left" Margin="10,17,0,14" VerticalAlignment="Top" Width="75" Click="StartPauseButton_Click"/>
             <Button Name="EditDoneButton" Content="Edit" HorizontalAlignment="Left" Margin="715,17,0,0" VerticalAlignment="Top" Width="75" Click="EditDoneButton_Click"/>
-
+            <Button Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="322,17,0,0" VerticalAlignment="Top" Width="75" Click="SaveButton_Click" />
+            <Button Name="LoadButton" Content="Load" HorizontalAlignment="Right" Margin="0,17,322,0" VerticalAlignment="Top" Width="75" Click="LoadButton_Click" />
+            <Button Name="RandomButton" Content="Random" HorizontalAlignment="Left" Margin="635,17,0,0" VerticalAlignment="Top" Width="75" Click="RandomButton_Click" />
+            <Button Name="ClearButton" Content="Clear" HorizontalAlignment="Left" Margin="555,17,0,0" VerticalAlignment="Top" Width="75" Click="ClearButton_Click" />
         </Grid>
     </Grid>
 </Window>

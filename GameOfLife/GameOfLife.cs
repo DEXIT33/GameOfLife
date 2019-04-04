@@ -51,6 +51,12 @@ namespace GameOfLifeProject
             Render();
         }
 
+        public void Reset()
+        {
+            GenerateCells();
+            Render();
+        }
+
         public void EditCell(Position position)
         {
             var cell = _cells[position.X, position.Y];
@@ -185,6 +191,17 @@ namespace GameOfLifeProject
         private void Render()
         {
             _renderer.RenderCells(_cells);
+        }
+
+        public SavedData GenerateSavedData()
+        {
+            return new SavedData { Cells = (Cell[,]) _cells.Clone() };
+        }
+
+        public void LoadSavedData(SavedData data)
+        {
+            this._cells = data.Cells;
+            Render();
         }
     }
 }
